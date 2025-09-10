@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option java_package = "com.example.application.proto";
+option java_multiple_files = true;
+
+message Settings {
+  string username = 1;
+  repeated string favorite_tags = 2;
+  repeated string favorite_language = 3;
+  repeated string favorite_country = 4;
+}
