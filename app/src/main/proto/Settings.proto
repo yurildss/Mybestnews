@@ -8,4 +8,5 @@ message Settings {
   repeated string favorite_tags = 2;
   repeated string favorite_language = 3;
   repeated string favorite_country = 4;
+  bool newUser = 5;
 }

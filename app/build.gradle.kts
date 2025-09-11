@@ -75,8 +75,12 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    //hilt
     implementation("com.google.dagger:hilt-android:2.56.2")
     ksp("com.google.dagger:hilt-android-compiler:2.56.2")
+    implementation("com.google.dagger:hilt-android-gradle-plugin:2.56.2")
+    implementation("androidx.hilt:hilt-navigation-compose:1.3.0")
+    //datastore
     implementation("androidx.datastore:datastore-core:1.1.7")
     implementation("androidx.datastore:datastore-preferences-core:1.1.7")
     implementation ("androidx.datastore:datastore:1.1.1")

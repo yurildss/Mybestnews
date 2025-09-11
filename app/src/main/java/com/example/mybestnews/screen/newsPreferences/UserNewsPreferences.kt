@@ -18,6 +18,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,16 +26,40 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.mybestnews.model.Country
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 
 @Composable
-fun UserNewsPreferencesScreen(modifier: Modifier = Modifier){
-
+fun UserNewsPreferencesScreen(
+    modifier: Modifier = Modifier,
+    viewModel: UserNewsPreferencesViewModel = hiltViewModel(),
+){
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    PreferencesForm(
+        uiState = uiState.value,
+        saveOptions = viewModel::saveOptions,
+        onSelectedCategory = viewModel::updateSelectedCategory,
+        onSelectedLanguage = viewModel::updateSelectedLanguage,
+        onSelectedCountry = viewModel::updateSelectedCountry,
+        updateCategoryExpandedOptions = viewModel::updateExpandedCategoryOptions,
+        updateLanguageExpandedOptions = viewModel::updateExpandedLanguageOptions,
+        updateCountryExpandedOptions = viewModel::updateExpandedCountryOptions,
+        )
 }
 
 @Composable
-fun PreferencesForm(modifier: Modifier = Modifier){
+fun PreferencesForm(
+    modifier: Modifier = Modifier,
+    updateCountryExpandedOptions: () -> Unit,
+    updateCategoryExpandedOptions: () -> Unit,
+    updateLanguageExpandedOptions: () -> Unit,
+    onSelectedCountry: (String) -> Unit,
+    onSelectedCategory: (String) -> Unit,
+    onSelectedLanguage: (String) -> Unit,
+    uiState: NewsPreferencesUIState,
+    saveOptions: () -> Unit
+    ){
     Column(modifier = modifier.padding(16.dp)) {
         Text(
             text = "User preferences",
@@ -44,24 +69,24 @@ fun PreferencesForm(modifier: Modifier = Modifier){
         )
         FilterCountryCard(
             label = "country",
-            updateExpandedOptions = { /*TODO*/ },
-            expandedDropMenu = false,
-            list = listOf(),
-            selectedItem = "",
+            updateExpandedOptions = updateCountryExpandedOptions,
+            expandedDropMenu = uiState.expandedCountryOptions,
+            list = uiState.listOfCountries,
+            selectedItem = uiState.selectedCountryItem,
             selectedIndex = { index -> /*TODO*/ },
-            onSelected = { item -> /*TODO*/ }
+            onSelected = onSelectedCountry
         )
         FilterCategoryCard(
             label = "category",
-            updateExpandedOptions = { /*TODO*/ },
-            expandedDropMenu = false,
-            list = listOf(),
-            selectedItem = "",
+            updateExpandedOptions = updateCategoryExpandedOptions,
+            expandedDropMenu = uiState.expandedCategoryOptions,
+            list = uiState.listOfCategories,
+            selectedItem = uiState.selectedCategoryItem,
             selectedIndex = { index -> /*TODO*/ },
-            onSelected = { item -> /*TODO*/ }
+            onSelected = onSelectedCategory
         )
         Button(
-            onClick = { /*TODO*/ },
+            onClick = saveOptions,
             colors = ButtonDefaults.buttonColors(Color.Gray),
             modifier = Modifier.padding(24.dp).fillMaxWidth(0.6f).align(Alignment.CenterHorizontally)
         ) {

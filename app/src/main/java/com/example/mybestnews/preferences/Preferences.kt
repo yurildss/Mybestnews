@@ -11,6 +11,10 @@ import kotlinx.coroutines.flow.Flow
 import java.io.InputStream
 import java.io.OutputStream
 
+/**
+ * Define a class that implements Serializer<T>, where T is the type defined in the proto file.
+ * This serializer class tells DataStore how to read and write your data type.
+ */
 object SettingsSerializer : Serializer<Settings> {
     override val defaultValue: Settings = Settings.getDefaultInstance()
 

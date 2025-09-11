@@ -1,15 +1,22 @@
 package com.example.mybestnews.screen.newsPreferences
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.mybestnews.model.Country
+import com.example.mybestnews.repository.UserPreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class UserNewsPreferencesViewModel @Inject constructor() : ViewModel() {
+class UserNewsPreferencesViewModel @Inject constructor(
+    private val userPreferencesRepository: UserPreferencesRepository
+) : ViewModel() {
+
     private val _uiState = MutableStateFlow(NewsPreferencesUIState())
     val uiState: StateFlow<NewsPreferencesUIState> = _uiState.asStateFlow()
 
@@ -33,6 +40,24 @@ class UserNewsPreferencesViewModel @Inject constructor() : ViewModel() {
         _uiState.value = _uiState.value.copy(selectedLanguageItem = language)
     }
 
+    fun updateExpandedLanguageOptions(){
+        _uiState.value = _uiState.value.copy(expandedLanguageOptions = !_uiState.value.expandedLanguageOptions)
+    }
+
+    fun saveOptions(){
+        viewModelScope.launch {
+            try {
+                userPreferencesRepository.saveFavoriteCountry(listOf(_uiState.value.selectedCountryItem))
+                userPreferencesRepository.saveFavoriteTags(listOf(_uiState.value.selectedCategoryItem))
+                userPreferencesRepository.saveFavoriteLanguage(listOf(_uiState.value.selectedLanguageItem))
+                userPreferencesRepository.updateNewUserStatus(true)
+            }catch (
+                e: Exception
+            ){
+                Log.e("Error", e.toString())
+            }
+        }
+    }
 }
 
 data class NewsPreferencesUIState(

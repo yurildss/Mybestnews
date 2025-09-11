@@ -19,4 +19,39 @@ class UserPreferencesRepository @Inject constructor(
     }
 
     fun getUserPreferences() = dataStore.data
+
+    suspend fun saveFavoriteTags(tags: List<String>) {
+        dataStore.updateData { current ->
+            current.toBuilder()
+                .clearFavoriteTags()
+                .addAllFavoriteTags(tags)
+                .build()
+        }
+    }
+
+    suspend fun saveFavoriteLanguage(language: List<String>) {
+        dataStore.updateData { current ->
+            current.toBuilder()
+                .clearFavoriteLanguage()
+                .addAllFavoriteLanguage(language)
+                .build()
+        }
+    }
+
+    suspend fun saveFavoriteCountry(country: List<String>) {
+        dataStore.updateData { current ->
+            current.toBuilder()
+                .clearFavoriteCountry()
+                .addAllFavoriteCountry(country)
+                .build()
+        }
+    }
+
+    suspend fun updateNewUserStatus(status: Boolean){
+        dataStore.updateData { current ->
+            current.toBuilder()
+                .setNewUser(status)
+                .build()
+        }
+    }
 }
