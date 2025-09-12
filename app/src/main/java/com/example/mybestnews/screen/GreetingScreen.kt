@@ -18,7 +18,10 @@ import androidx.compose.ui.unit.sp
 import com.example.mybestnews.ui.theme.MyBestNewsTheme
 
 @Composable
-fun Greeting(modifier: Modifier = Modifier) {
+fun Greeting(
+    modifier: Modifier = Modifier,
+    onStartClick: () -> Unit
+    ) {
     Column(modifier = modifier.fillMaxSize()) {
         Text(
             "Welcome to the best news app",
@@ -27,7 +30,7 @@ fun Greeting(modifier: Modifier = Modifier) {
             fontFamily = FontFamily.Monospace
         )
         Button(
-            onClick = { /*TODO*/ },
+            onClick = onStartClick,
             colors = ButtonDefaults.buttonColors(Color.Gray),
             modifier = Modifier.padding(24.dp).fillMaxWidth(0.6f).align(Alignment.CenterHorizontally)
         ) {
@@ -40,6 +43,6 @@ fun Greeting(modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     MyBestNewsTheme {
-        Greeting()
+        Greeting(onStartClick = {})
     }
 }

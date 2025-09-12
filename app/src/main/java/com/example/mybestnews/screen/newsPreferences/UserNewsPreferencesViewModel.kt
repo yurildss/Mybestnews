@@ -44,13 +44,14 @@ class UserNewsPreferencesViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(expandedLanguageOptions = !_uiState.value.expandedLanguageOptions)
     }
 
-    fun saveOptions(){
+    fun saveOptions(onSaved: () -> Unit){
         viewModelScope.launch {
             try {
                 userPreferencesRepository.saveFavoriteCountry(listOf(_uiState.value.selectedCountryItem))
                 userPreferencesRepository.saveFavoriteTags(listOf(_uiState.value.selectedCategoryItem))
                 userPreferencesRepository.saveFavoriteLanguage(listOf(_uiState.value.selectedLanguageItem))
                 userPreferencesRepository.updateNewUserStatus(true)
+                onSaved()
             }catch (
                 e: Exception
             ){

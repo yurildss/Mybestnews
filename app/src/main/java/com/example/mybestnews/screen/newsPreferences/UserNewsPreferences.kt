@@ -29,16 +29,16 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
-
 @Composable
 fun UserNewsPreferencesScreen(
     modifier: Modifier = Modifier,
+    onSuccessSave: () -> Unit,
     viewModel: UserNewsPreferencesViewModel = hiltViewModel(),
 ){
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     PreferencesForm(
         uiState = uiState.value,
-        saveOptions = viewModel::saveOptions,
+        saveOptions = {viewModel.saveOptions(onSuccessSave)},
         onSelectedCategory = viewModel::updateSelectedCategory,
         onSelectedLanguage = viewModel::updateSelectedLanguage,
         onSelectedCountry = viewModel::updateSelectedCountry,

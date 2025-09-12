@@ -85,4 +85,9 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences-core:1.1.7")
     implementation ("androidx.datastore:datastore:1.1.1")
     implementation ("com.google.protobuf:protobuf-javalite:3.24.3")
+
+    val nav_version = "2.9.4"
+
+    // Jetpack Compose integration
+    implementation("androidx.navigation:navigation-compose:$nav_version")
 }
