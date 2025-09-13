@@ -85,6 +85,15 @@ fun PreferencesForm(
             selectedIndex = { index -> /*TODO*/ },
             onSelected = onSelectedCategory
         )
+        FilterLanguageCard(
+            label = "language",
+            updateExpandedOptions = updateLanguageExpandedOptions,
+            expandedDropMenu = uiState.expandedLanguageOptions,
+            list = uiState.listOfLanguages,
+            selectedItem = uiState.selectedLanguageItem,
+            selectedIndex = { index -> /*TODO*/ },
+            onSelected = onSelectedLanguage
+        )
         Button(
             onClick = saveOptions,
             colors = ButtonDefaults.buttonColors(Color.Gray),
@@ -180,6 +189,87 @@ fun FilterCountryCard(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FilterCategoryCard(
+    label: String,
+    updateExpandedOptions: () -> Unit,
+    expandedDropMenu: Boolean,
+    list: List<String>,
+    selectedItem: String,
+    selectedIndex: (index: Int) -> Unit,
+    onSelected: (item: String) -> Unit,
+    modifier: Modifier = Modifier
+){
+
+    Column(
+        modifier
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.primary,
+                shape = MaterialTheme.shapes.medium
+            )
+            .wrapContentHeight()
+            .background(MaterialTheme.colorScheme.background)
+            .padding(10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        ExposedDropdownMenuBox(
+            expanded = expandedDropMenu,
+            onExpandedChange = { updateExpandedOptions() },
+            modifier = Modifier
+                .fillMaxWidth(0.85F)
+                .padding(top = 10.dp)
+        ) {
+            OutlinedTextField(
+                value = selectedItem,
+                onValueChange = {
+
+                },
+                readOnly = true,
+                modifier = Modifier
+                    .menuAnchor()
+                    .fillMaxWidth()
+                    .testTag(label),
+                label = {
+                    Text(
+                        "Select the $label of the news",
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                },
+                trailingIcon = {
+                    Icon(
+                        Icons
+                            .AutoMirrored
+                            .Filled
+                            .KeyboardArrowRight,
+                        contentDescription = ""
+                    )
+                }
+            )
+            ExposedDropdownMenu(
+                expanded = expandedDropMenu,
+                onDismissRequest = {
+                    updateExpandedOptions()
+                }
+            ){
+                list.forEach {
+                        item ->
+                    DropdownMenuItem(
+                        text = { Text(text = item, color = MaterialTheme.colorScheme.primary) },
+                        onClick = {
+                            selectedIndex(list.indexOf(item))
+                            onSelected(item)
+                            updateExpandedOptions()
+                        },
+                        modifier = Modifier.testTag(item)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FilterLanguageCard(
     label: String,
     updateExpandedOptions: () -> Unit,
     expandedDropMenu: Boolean,

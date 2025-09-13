@@ -12,15 +12,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.mybestnews.screen.Greeting
+import com.example.mybestnews.screen.navigation.MyBestNewsApp
 import com.example.mybestnews.ui.theme.MyBestNewsTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             MyBestNewsTheme {
-                Greeting()
+                MyBestNewsApp()
             }
         }
     }
