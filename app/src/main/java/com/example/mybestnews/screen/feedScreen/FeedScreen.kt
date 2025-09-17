@@ -1,15 +1,13 @@
 package com.example.mybestnews.screen.feedScreen
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -24,6 +22,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.mybestnews.model.News
 import com.example.mybestnews.ui.theme.MyBestNewsTheme
 
 @Composable
@@ -32,7 +31,21 @@ fun FeedScreen(){
 }
 
 @Composable
-fun NewsCard(modifier: Modifier = Modifier){
+fun NewsFeed(
+    modifier: Modifier = Modifier,
+    newsList: List<News>){
+    LazyColumn(modifier = modifier.padding(8.dp)) {
+        items(newsList) { news ->
+            NewsCard(news = news)
+        }
+    }
+}
+
+@Composable
+fun NewsCard(
+    modifier: Modifier = Modifier,
+    news: News
+){
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -46,13 +59,10 @@ fun NewsCard(modifier: Modifier = Modifier){
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ){
-                Text(text = "Bleacher Report", fontSize = 24.sp, fontWeight = FontWeight.Bold)
-                Text(text = "Sports", fontSize = 20.sp, fontWeight = FontWeight.Bold, fontStyle = FontStyle.Italic)
+                Text(text = news.title, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                Text(text = news.publishedAt, fontSize = 20.sp, fontWeight = FontWeight.Bold, fontStyle = FontStyle.Italic)
             }
-            Text(text = "Sports journalists and bloggers covering " +
-                    "NFL, MLB, NBA, NHL, MMA, college football and basketball," +
-                    " NASCAR, fantasy sports and more. News, photos, mock drafts," +
-                    " game scores, player profiles and more!",
+            Text(text = news.description,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Light,
                 fontStyle = FontStyle.Italic,
@@ -66,8 +76,16 @@ fun NewsCard(modifier: Modifier = Modifier){
 fun NewsCardPreview(){
     MyBestNewsTheme {
         Surface(Modifier.fillMaxSize()) {
-            NewsCard()
-
+            Column {
+                NewsCard(
+                    news = News(
+                        title = "",
+                        description = "",
+                        url = "",
+                        publishedAt = ""
+                    )
+                )
+            }
         }
     }
 }
