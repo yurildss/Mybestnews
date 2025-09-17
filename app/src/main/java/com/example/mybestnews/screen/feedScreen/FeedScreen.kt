@@ -82,7 +82,10 @@ fun NewsCardPreview(){
                         title = "",
                         description = "",
                         url = "",
-                        publishedAt = ""
+                        publishedAt = "",
+                        author = TODO(),
+                        urlToImage = TODO(),
+                        content = TODO()
                     )
                 )
             }
