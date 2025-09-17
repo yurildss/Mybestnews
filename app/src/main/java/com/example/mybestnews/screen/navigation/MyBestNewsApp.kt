@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.mybestnews.screen.Greeting
+import com.example.mybestnews.screen.feedScreen.FeedScreen
 import com.example.mybestnews.screen.newsPreferences.UserNewsPreferencesScreen
 
 @Composable
@@ -31,7 +32,7 @@ fun MyBestNewsApp(
         }
 
         composable(Screens.NEWS_SCREEN.name) {
-
+            FeedScreen()
         }
     }
 }

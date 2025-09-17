@@ -2,6 +2,8 @@ package com.example.mybestnews.repository
 
 import androidx.datastore.core.DataStore
 import com.example.application.proto.Settings
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 

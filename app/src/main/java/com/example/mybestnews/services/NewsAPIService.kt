@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-private const val BASE_URL = "https://newsapi.org/v2/"
+private const val BASE_URL = "https://eventregistry.org/api/v1/"
 
 private val client = OkHttpClient
     .Builder()
@@ -16,9 +16,9 @@ private val client = OkHttpClient
 
 private val retrofit = Retrofit
     .Builder()
-    .addConverterFactory(GsonConverterFactory.create())
-    .client(client)
     .baseUrl(BASE_URL)
+    .client(client)
+    .addConverterFactory(GsonConverterFactory.create())
     .build()
 
 object NewsAPI {
@@ -28,10 +28,11 @@ object NewsAPI {
 }
 
 interface NewsAPIService {
-    @GET("top-headlines")
+    @GET("news")
     suspend fun getNewsByCategoryLanguageCountry(
-        @Query("category") category: String,
-        @Query("language") language: String,
-        @Query("country") country: String
+        @Query("q") query: String?,
+        @Query("language") language: String = "en",
+        @Query("page") page: Int = 1,
+        @Query("pageSize") pageSize: Int = 20,
     ) : List<NewsResponse>
 }

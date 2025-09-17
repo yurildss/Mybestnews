@@ -14,6 +14,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
@@ -22,12 +23,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.mybestnews.model.News
 import com.example.mybestnews.ui.theme.MyBestNewsTheme
 
 @Composable
-fun FeedScreen(){
+fun FeedScreen(
+    viewModel: FeedScreenViewModel = hiltViewModel()
+){
+    val uiState = viewModel.uiState.collectAsState()
 
+    NewsFeed(newsList = uiState.value.news)
 }
 
 @Composable
