@@ -15,6 +15,3 @@ data class News(
     val source: Source,
 )
 
-data class Source(
-    val name: String
-)

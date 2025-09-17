@@ -1,7 +1,9 @@
 package com.example.mybestnews.screen.feedScreen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mybestnews.model.ArticlesRequest
 import com.example.mybestnews.model.News
 import com.example.mybestnews.repository.UserPreferencesRepository
 import com.example.mybestnews.services.NewsAPI
@@ -20,8 +22,15 @@ constructor(
         viewModelScope.launch {
             val userPreferences = repository.getUserPreferences()
             userPreferences.collect {
-                val news = NewsAPI.retrofitService.getNewsByCategoryLanguageCountry(it.favoriteTagsList.first())
-                _uiState.value = FeedScreenUIState(news[2].articles.toMutableList())
+                val news = NewsAPI.retrofitService.getNewsByCategoryLanguageCountry(
+                    ArticlesRequest(
+                    keywords = mapOf("keyword" to "technology"),
+                    lang = "eng",
+                    page = 1,
+                    pageSize = 20))
+                if(news.isSuccessful){
+
+                }
             }
 
         }
