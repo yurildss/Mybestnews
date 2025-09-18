@@ -7,7 +7,8 @@ data class Article(
     val body: String?,
     val url: String,
     val source: Source?,
-    val date: String
+    val date: String,
+    val image: String
 )
 
 data class ArticlesWrapper(

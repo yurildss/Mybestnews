@@ -3,6 +3,7 @@ package com.example.mybestnews.screen.feedScreen
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mybestnews.model.Article
 import com.example.mybestnews.model.ArticlesRequest
 import com.example.mybestnews.model.News
 import com.example.mybestnews.repository.UserPreferencesRepository
@@ -29,7 +30,16 @@ constructor(
                     page = 1,
                     pageSize = 20))
                 if(news.isSuccessful){
+                    val articles = news.body()?.articles?.results
+                    val articlesList = mutableListOf<Article>()
 
+                    if (articles != null) {
+                        articles.forEach {
+                            articlesList.add(it)
+                        }
+                    }
+                    _uiState.value = _uiState.value.copy(news = articlesList)
+                    Log.d("Response", news.body()?.articles?.results.toString())
                 }
             }
 
@@ -41,5 +51,5 @@ constructor(
 }
 
 data class FeedScreenUIState(
-    val news: MutableList<News> = mutableListOf()
+    val news: MutableList<Article> = mutableListOf()
 )

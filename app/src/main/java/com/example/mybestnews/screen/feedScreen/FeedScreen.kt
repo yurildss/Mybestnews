@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.example.mybestnews.model.Article
 import com.example.mybestnews.model.News
 import com.example.mybestnews.model.Source
 import com.example.mybestnews.ui.theme.MyBestNewsTheme
@@ -40,7 +41,7 @@ fun FeedScreen(
 @Composable
 fun NewsFeed(
     modifier: Modifier = Modifier,
-    newsList: List<News>){
+    newsList: List<Article>){
     LazyColumn(modifier = modifier.padding(8.dp)) {
         items(newsList) { news ->
             NewsCard(news = news)
@@ -51,7 +52,7 @@ fun NewsFeed(
 @Composable
 fun NewsCard(
     modifier: Modifier = Modifier,
-    news: News
+    news: Article
 ){
     Card(
         modifier = modifier
@@ -67,13 +68,15 @@ fun NewsCard(
                 verticalAlignment = Alignment.CenterVertically
             ){
                 Text(text = news.title, fontSize = 24.sp, fontWeight = FontWeight.Bold)
-                Text(text = news.publishedAt, fontSize = 20.sp, fontWeight = FontWeight.Bold, fontStyle = FontStyle.Italic)
+                //Text(text = news.date, fontSize = 16.sp, fontWeight = FontWeight.Bold, fontStyle = FontStyle.Italic)
             }
-            Text(text = news.description,
+            Text(text = news.body?: "",
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Light,
                 fontStyle = FontStyle.Italic,
-                overflow = TextOverflow.Ellipsis,)
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 6
+                )
         }
     }
 }
@@ -85,13 +88,7 @@ fun NewsCardPreview(){
         Surface(Modifier.fillMaxSize()) {
             Column {
                 NewsCard(
-                    news = News(
-                        title = "",
-                        description = "",
-                        url = "",
-                        publishedAt = "",
-                        source = Source("","")
-                    )
+                    news = Article("", "", "", null, "", "")
                 )
             }
         }
