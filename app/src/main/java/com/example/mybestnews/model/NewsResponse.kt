@@ -1,7 +1,5 @@
 package com.example.mybestnews.model
 
-import com.google.gson.annotations.SerializedName
-
 data class Article(
     val title: String,
     val body: String?,

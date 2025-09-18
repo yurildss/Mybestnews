@@ -1,6 +1,7 @@
 package com.example.mybestnews.screen.feedScreen
 
 import android.util.Log
+import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mybestnews.model.Article
@@ -11,7 +12,9 @@ import com.example.mybestnews.services.NewsAPI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+import okio.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,11 +24,19 @@ constructor(
 ) : ViewModel() {
     init {
         viewModelScope.launch {
-            val userPreferences = repository.getUserPreferences()
+            val userPreferences = repository.getUserPreferences().catch {
+                exception ->
+                if(exception is IOException){
+                    Log.e("TAG", "Error reading sort order preferences.", exception)
+                }else{
+                    throw exception
+                }
+            }
+
             userPreferences.collect {
                 val news = NewsAPI.retrofitService.getNewsByCategoryLanguageCountry(
                     ArticlesRequest(
-                    keywords = mapOf("keyword" to "technology"),
+                    keywords = mapOf("keyword" to it.favoriteTagsList.first()),
                     lang = "eng",
                     page = 1,
                     pageSize = 20))
@@ -39,7 +50,6 @@ constructor(
                         }
                     }
                     _uiState.value = _uiState.value.copy(news = articlesList)
-                    Log.d("Response", news.body()?.articles?.results.toString())
                 }
             }
 
