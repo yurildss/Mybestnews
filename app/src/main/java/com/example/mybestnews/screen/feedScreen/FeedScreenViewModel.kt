@@ -1,12 +1,10 @@
 package com.example.mybestnews.screen.feedScreen
 
 import android.util.Log
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mybestnews.model.Article
 import com.example.mybestnews.model.ArticlesRequest
-import com.example.mybestnews.model.News
 import com.example.mybestnews.repository.UserPreferencesRepository
 import com.example.mybestnews.services.NewsAPI
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,12 +42,13 @@ constructor(
                     val articles = news.body()?.articles?.results
                     val articlesList = mutableListOf<Article>()
 
-                    if (articles != null) {
-                        articles.forEach {
-                            articlesList.add(it)
-                        }
+                    articles?.forEach {
+                        articlesList.add(it)
                     }
                     _uiState.value = _uiState.value.copy(news = articlesList)
+                }
+                else{
+                    Log.e("TAG", "Error fetching news: ${news.errorBody()}")
                 }
             }
 
