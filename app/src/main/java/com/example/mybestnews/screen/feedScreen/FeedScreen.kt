@@ -42,9 +42,23 @@ fun FeedScreen(
 fun NewsFeed(
     modifier: Modifier = Modifier,
     newsList: List<Article>){
-    LazyColumn(modifier = modifier.padding(8.dp)) {
-        items(newsList) { news ->
-            NewsCard(news = news)
+    LazyColumn(
+        modifier = modifier.fillMaxSize().padding(8.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        if(newsList.isEmpty()){
+            item {
+                    Text(
+                        text = "No news found",
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+            }
+        }else{
+            items(newsList) { news ->
+                NewsCard(news = news)
+            }
         }
     }
 }
