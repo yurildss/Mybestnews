@@ -37,7 +37,7 @@ constructor(
                     keywords = mapOf("keyword" to it.favoriteTagsList.first()),
                     lang = "eng",
                     page = 1,
-                    pageSize = 20))
+                    pageSize =40 ))
                 if(news.isSuccessful){
                     val articles = news.body()?.articles?.results
                     val articlesList = mutableListOf<Article>()
