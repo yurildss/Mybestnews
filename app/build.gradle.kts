@@ -87,6 +87,7 @@ dependencies {
     implementation ("com.google.protobuf:protobuf-javalite:3.24.3")
 
     val nav_version = "2.9.4"
+    val work_version = "2.10.5"
 
     // Jetpack Compose integration
     implementation("androidx.navigation:navigation-compose:$nav_version")
@@ -100,5 +101,10 @@ dependencies {
     implementation("androidx.room:room-runtime:2.8.0")
     ksp("androidx.room:room-compiler:2.8.0")
     implementation("androidx.room:room-ktx:2.8.0")
+
+    //WorkerManager
+    // Kotlin + coroutines
+    implementation("androidx.work:work-runtime-ktx:$work_version")
+
 
 }

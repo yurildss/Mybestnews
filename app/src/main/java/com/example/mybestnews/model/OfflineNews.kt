@@ -11,5 +11,7 @@ data class OfflineNews(
     val description: String,
     val url: String,
     val publishedAt: String,
-    val source: Source
+    val uriSource: String,
+    val titleSource: String
+
 )
