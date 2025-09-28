@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.mybestnews.model.Article
-import com.example.mybestnews.model.News
 import com.example.mybestnews.model.Source
 import com.example.mybestnews.ui.theme.MyBestNewsTheme
 

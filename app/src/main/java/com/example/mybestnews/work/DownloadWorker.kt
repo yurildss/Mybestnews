@@ -2,6 +2,7 @@ package com.example.mybestnews.work
 
 import android.content.Context
 import android.util.Log
+import androidx.work.CoroutineWorker
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
@@ -12,31 +13,32 @@ import com.example.mybestnews.model.OfflineNews
 import com.example.mybestnews.repository.NewsRepository
 import com.example.mybestnews.repository.UserPreferencesRepository
 import com.example.mybestnews.services.NewsAPI
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import okio.IOException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class DownloadWorker
-@Inject constructor(
-    appContext: Context,
-    workerParams: WorkerParameters,
+@AssistedInject constructor(
+    @Assisted appContext: Context,
+    @Assisted workerParams: WorkerParameters,
     private val userPreferencesRepository: UserPreferencesRepository,
     private val newsRepository: NewsRepository
-): Worker(appContext, workerParams)
+): CoroutineWorker(appContext, workerParams)
 {
 
-    val downLoadRequest: WorkRequest = PeriodicWorkRequestBuilder<DownloadWorker>(12, TimeUnit.HOURS)
-        .build()
-
-    val workManager = WorkManager.getInstance(appContext).enqueue(downLoadRequest)
-
-    override fun doWork(): Result {
+    override suspend fun doWork(): Result {
         CoroutineScope(Dispatchers.IO).launch {
-            val userPreferences = userPreferencesRepository.getUserPreferences().catch {
+
+            val userPreferences = userPreferencesRepository
+                .getUserPreferences()
+                .catch {
                     exception ->
                 if(exception is IOException){
                     Log.e("TAG", "Error reading sort order preferences.", exception)
@@ -44,11 +46,12 @@ class DownloadWorker
                     throw exception
                 }
             }
+                .first()
 
-            userPreferences.collect {
+
                 val news = NewsAPI.retrofitService.getNewsByCategoryLanguageCountry(
                     ArticlesRequest(
-                        keywords = mapOf("keyword" to it.favoriteTagsList.first()),
+                        keywords = mapOf("keyword" to userPreferences.favoriteTagsList.first()),
                         lang = "eng",
                         page = 1,
                         pageSize =40 )
@@ -71,7 +74,7 @@ class DownloadWorker
                 else{
                     Log.e("TAG", "Error fetching news: ${news.errorBody()}")
                 }
-            }
+
         }
 
         return Result.success()
