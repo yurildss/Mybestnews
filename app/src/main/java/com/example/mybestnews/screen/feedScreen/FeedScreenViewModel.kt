@@ -1,15 +1,22 @@
 package com.example.mybestnews.screen.feedScreen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mybestnews.model.Article
+import com.example.mybestnews.model.ArticlesRequest
+import com.example.mybestnews.model.OfflineNews
 import com.example.mybestnews.model.Source
 import com.example.mybestnews.repository.NewsRepository
 import com.example.mybestnews.repository.UserPreferencesRepository
+import com.example.mybestnews.services.NewsAPI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import okio.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,13 +41,51 @@ constructor(
                         image = ""
                     )
                 }
-                _uiState.value = _uiState.value.copy(news = mutableList.toMutableList())
+
+                if (mutableList.isEmpty()){
+                    _uiState.value = _uiState.value.copy(news = getNewsFromApi())
+                }else{
+                    _uiState.value = _uiState.value.copy(news = mutableList.toMutableList())
+                }
             }
         }
     }
 
     val _uiState = MutableStateFlow(FeedScreenUIState())
     val uiState = _uiState.asStateFlow()
+
+    suspend fun getNewsFromApi(): MutableList<Article> {
+        val mutableList: MutableList<Article> = mutableListOf()
+        val userPreferences = userPreferencesRepository
+            .getUserPreferences()
+            .catch {
+                    exception ->
+                if(exception is IOException){
+                    Log.e("TAG", "Error reading sort order preferences.", exception)
+                }else{
+                    throw exception
+                }
+            }.first()
+
+
+        val news = NewsAPI.retrofitService.getNewsByCategoryLanguageCountry(
+            ArticlesRequest(
+                keywords = mapOf("keyword" to userPreferences.favoriteTagsList.first()),
+                lang = "eng",
+                page = 1,
+                pageSize =40 )
+        )
+        if(news.isSuccessful){
+            val articles = news.body()?.articles?.results
+            articles?.forEach {
+                mutableList.add(it)
+            }
+        }
+        else{
+            Log.e("TAG", "Error fetching news: ${news.errorBody()}")
+        }
+        return mutableList
+    }
 }
 
 data class FeedScreenUIState(

@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
@@ -26,9 +27,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val downLoadRequest: WorkRequest = PeriodicWorkRequestBuilder<DownloadWorker>(12, TimeUnit.HOURS)
+        val downLoadRequest = PeriodicWorkRequestBuilder<DownloadWorker>(12, TimeUnit.HOURS)
             .build()
-        WorkManager.getInstance(this).enqueue(downLoadRequest)
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            "DownloadWork",
+            ExistingPeriodicWorkPolicy.KEEP,
+            downLoadRequest
+        )
+
 
         enableEdgeToEdge()
         setContent {

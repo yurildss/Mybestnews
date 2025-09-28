@@ -45,8 +45,7 @@ class DownloadWorker
                 }else{
                     throw exception
                 }
-            }
-                .first()
+            }.first()
 
 
                 val news = NewsAPI.retrofitService.getNewsByCategoryLanguageCountry(
