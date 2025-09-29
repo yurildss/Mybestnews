@@ -38,7 +38,11 @@ fun FeedScreen(
 ){
     val uiState = viewModel.uiState.collectAsState()
 
-    NewsFeed(newsList = uiState.value.news, onNewsClick = onNewsClick)
+    NewsFeed(
+        modifier = modifier,
+        newsList = uiState.value.news,
+        onNewsClick = onNewsClick
+    )
 }
 
 @Composable
