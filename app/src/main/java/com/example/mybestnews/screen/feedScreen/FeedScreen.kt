@@ -1,5 +1,6 @@
 package com.example.mybestnews.screen.feedScreen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,23 +25,28 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.mybestnews.model.Article
 import com.example.mybestnews.model.Source
 import com.example.mybestnews.ui.theme.MyBestNewsTheme
 
 @Composable
 fun FeedScreen(
-    viewModel: FeedScreenViewModel = hiltViewModel()
+    viewModel: FeedScreenViewModel = hiltViewModel(),
+    onNewsClick: (Article) -> Unit,
+    modifier: Modifier = Modifier
 ){
     val uiState = viewModel.uiState.collectAsState()
 
-    NewsFeed(newsList = uiState.value.news)
+    NewsFeed(newsList = uiState.value.news, onNewsClick = onNewsClick)
 }
 
 @Composable
 fun NewsFeed(
     modifier: Modifier = Modifier,
-    newsList: List<Article>){
+    newsList: List<Article>,
+    onNewsClick: (Article) -> Unit
+){
     LazyColumn(
         modifier = modifier.fillMaxSize().padding(8.dp),
         verticalArrangement = Arrangement.Center,
@@ -56,7 +62,7 @@ fun NewsFeed(
             }
         }else{
             items(newsList) { news ->
-                NewsCard(news = news)
+                NewsCard(news = news, onNewsClick = onNewsClick)
             }
         }
     }
@@ -65,12 +71,15 @@ fun NewsFeed(
 @Composable
 fun NewsCard(
     modifier: Modifier = Modifier,
-    news: Article
+    news: Article,
+    onNewsClick: (Article) -> Unit
 ){
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp).clickable(onClick = {
+                onNewsClick(news)
+            }),
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
@@ -101,7 +110,8 @@ fun NewsCardPreview(){
         Surface(Modifier.fillMaxSize()) {
             Column {
                 NewsCard(
-                    news = Article("", "", "", null, "", "")
+                    news = Article("", "", "", null, "", ""),
+                    onNewsClick = {}
                 )
             }
         }

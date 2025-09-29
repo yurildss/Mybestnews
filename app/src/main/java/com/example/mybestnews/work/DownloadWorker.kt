@@ -3,10 +3,6 @@ package com.example.mybestnews.work
 import android.content.Context
 import android.util.Log
 import androidx.work.CoroutineWorker
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.WorkRequest
-import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.example.mybestnews.model.ArticlesRequest
 import com.example.mybestnews.model.OfflineNews
@@ -21,8 +17,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import okio.IOException
-import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
 class DownloadWorker
 @AssistedInject constructor(

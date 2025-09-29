@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mybestnews.model.Article
 import com.example.mybestnews.model.ArticlesRequest
-import com.example.mybestnews.model.OfflineNews
 import com.example.mybestnews.model.Source
 import com.example.mybestnews.repository.NewsRepository
 import com.example.mybestnews.repository.UserPreferencesRepository

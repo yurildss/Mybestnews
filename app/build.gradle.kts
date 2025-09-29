@@ -106,5 +106,6 @@ dependencies {
     // Kotlin + coroutines
     implementation("androidx.work:work-runtime-ktx:$work_version")
 
+    implementation ("com.google.code.gson:gson:2.11.0")
 
 }
