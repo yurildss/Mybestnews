@@ -49,6 +49,7 @@ A interface segue um visual **2D minimalista**, com cores suaves e ícones vetor
 O ícone principal do app foi criado especialmente para o projeto:
 
 <img width="270" height="600" alt="Screenshot_20251014_222003" src="https://github.com/user-attachments/assets/c7f91f8b-e20a-4949-b27d-9d23d4e37b74" />
+<img width="270" height="600" alt="Screenshot_20251015_201429" src="https://github.com/user-attachments/assets/a86940ab-02f3-4c4f-93b3-bd8c1b861df1" />
 
 
 ---
