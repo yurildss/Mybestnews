@@ -19,10 +19,11 @@ data class NewsResponse(
 
 data class ArticlesRequest(
     val apiKey: String = "86527cc2-7ace-46e5-a855-74b4f517a2a9",
-    val keywords: Map<String, String>,
+    val keyword: List<String>,
     val lang: String,
     val page: Int,
-    val pageSize: Int
+    val pageSize: Int,
+    val keywordOper: String
 )
 
 data class Source(

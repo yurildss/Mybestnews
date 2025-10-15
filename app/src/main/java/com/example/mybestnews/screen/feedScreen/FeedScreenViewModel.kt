@@ -66,13 +66,14 @@ constructor(
                 }
             }.first()
 
-
         val news = NewsAPI.retrofitService.getNewsByCategoryLanguageCountry(
             ArticlesRequest(
-                keywords = mapOf("keyword" to userPreferences.favoriteTagsList.first()),
+                keyword = userPreferences.favoriteTagsList,
                 lang = "eng",
                 page = 1,
-                pageSize =40 )
+                pageSize =40,
+                keywordOper = "or"
+            )
         )
         if(news.isSuccessful){
             val articles = news.body()?.articles?.results

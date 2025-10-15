@@ -32,9 +32,9 @@ import com.example.mybestnews.ui.theme.MyBestNewsTheme
 
 @Composable
 fun FeedScreen(
+    modifier: Modifier = Modifier,
     viewModel: FeedScreenViewModel = hiltViewModel(),
     onNewsClick: (Article) -> Unit,
-    modifier: Modifier = Modifier
 ){
     val uiState = viewModel.uiState.collectAsState()
 
