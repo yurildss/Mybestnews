@@ -1,6 +1,6 @@
 # 🗞️ NewsNow — Leitura de notícias offline e inteligente (em desenvolvimento)
 
-Um aplicativo moderno de leitura de notícias que baixa automaticamente os artigos mais recentes sobre os temas preferidos do usuário.  
+Um aplicativo de leitura de notícias que baixa automaticamente os artigos mais recentes sobre os temas preferidos do usuário.  
 Mesmo sem conexão com a internet, você pode continuar lendo suas notícias — graças ao sistema de sincronização inteligente feito com **WorkManager**.
 
 ---
@@ -102,9 +102,9 @@ NewsNow/
 ## 👨‍💻 Autor
 
 Desenvolvido por **Yuri Lima**  
-📧 *seu-email@exemplo.com*  
-💼 [LinkedIn](https://www.linkedin.com/in/seu-perfil)  
-🐙 [GitHub](https://github.com/seu-usuario)
+📧 *yurildss@hotmail.com*  
+💼 [LinkedIn]([https://www.linkedin.com/in/seu-perfil](https://www.linkedin.com/in/yuri-lima-475352187/))  
+🐙 [GitHub](https://github.com/yurildss)
 
 ---
 
