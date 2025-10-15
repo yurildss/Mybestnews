@@ -48,7 +48,8 @@ View (Compose UI)
 A interface segue um visual **2D minimalista**, com cores suaves e ícones vetoriais inspirados em jornais digitais.  
 O ícone principal do app foi criado especialmente para o projeto:
 
-![Ícone do App](A_flat,_vector-style_digital_icon_of_a_newspaper_i.png)
+<img width="270" height="600" alt="Screenshot_20251014_222003" src="https://github.com/user-attachments/assets/c7f91f8b-e20a-4949-b27d-9d23d4e37b74" />
+
 
 ---
 
