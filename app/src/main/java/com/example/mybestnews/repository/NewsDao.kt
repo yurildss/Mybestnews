@@ -9,10 +9,8 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NewsDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(news: OfflineNews)
-
     @Query("SELECT * FROM news ORDER BY publishedAt DESC")
     fun getNews(): Flow<List<OfflineNews>>
 }
