@@ -14,7 +14,7 @@ import com.example.mybestnews.model.Article
 @Composable
 fun NewsScreen(article: Article, modifier: Modifier = Modifier){
     LazyColumn(modifier = modifier.fillMaxSize().padding(
-        top = 20.dp,
+        top = 30.dp,
         end = 15.dp,
         bottom = 15.dp,
         start = 15.dp)

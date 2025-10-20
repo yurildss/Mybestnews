@@ -52,7 +52,7 @@ fun NewsFeed(
     onNewsClick: (Article) -> Unit
 ){
     LazyColumn(
-        modifier = modifier.fillMaxSize().padding(8.dp),
+        modifier = modifier.fillMaxSize().padding(top = 25.dp, start = 8.dp, end = 8.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
