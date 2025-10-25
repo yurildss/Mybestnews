@@ -10,11 +10,13 @@ import com.example.mybestnews.repository.NewsRepository
 import com.example.mybestnews.repository.UserPreferencesRepository
 import com.example.mybestnews.services.NewsAPI
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okio.IOException
 import javax.inject.Inject
 
@@ -24,8 +26,9 @@ constructor(
     private val userPreferencesRepository: UserPreferencesRepository,
     private val newsRepository: NewsRepository
 ) : ViewModel() {
+
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             newsRepository.getAllNews().collect {
                 val mutableList = it.map {
                     Article(
@@ -42,9 +45,14 @@ constructor(
                 }
 
                 if (mutableList.isEmpty()){
-                    _uiState.value = _uiState.value.copy(news = getNewsFromApi())
+                    val newsFromApi = getNewsFromApi()
+                    withContext(Dispatchers.Main) {
+                        _uiState.value = _uiState.value.copy(news = newsFromApi)
+                    }
                 }else{
-                    _uiState.value = _uiState.value.copy(news = mutableList.toMutableList())
+                    withContext(Dispatchers.Main) {
+                        _uiState.value = _uiState.value.copy(news = mutableList.toMutableList())
+                    }
                 }
             }
         }

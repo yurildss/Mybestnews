@@ -41,7 +41,6 @@ class DownloadWorker
                 }
             }.first()
 
-
                 val news = NewsAPI.retrofitService.getNewsByCategoryLanguageCountry(
                     ArticlesRequest(
                         keyword = userPreferences.favoriteTagsList,

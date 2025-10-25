@@ -18,15 +18,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val downLoadRequest = PeriodicWorkRequestBuilder<DownloadWorker>(12, TimeUnit.HOURS)
+        val downLoadRequest = PeriodicWorkRequestBuilder<DownloadWorker>(1, TimeUnit.HOURS)
             .build()
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
             "DownloadWork",
             ExistingPeriodicWorkPolicy.KEEP,
             downLoadRequest
         )
-
-
         enableEdgeToEdge()
         setContent {
             MyBestNewsTheme {

@@ -51,7 +51,10 @@ fun Greeting(
             fontSize = 20.sp,
             fontFamily = FontFamily.Monospace
         )
-        Image(painter = painterResource(id = R.drawable.newsapp), contentDescription = "logo")
+        Image(
+            painter = painterResource(id = R.drawable.newsapp),
+            contentDescription = "logo"
+        )
         Button(
             onClick = {
                 if(uiState.value.newUser){
@@ -61,7 +64,11 @@ fun Greeting(
                 }
             },
             colors = ButtonDefaults.buttonColors(Color.Gray),
-            modifier = Modifier.padding(24.dp).fillMaxWidth(0.75f).fillMaxHeight(0.15f).align(Alignment.CenterHorizontally)
+            modifier = Modifier
+                .padding(24.dp)
+                .fillMaxWidth(0.75f)
+                .fillMaxHeight(0.15f)
+                .align(Alignment.CenterHorizontally)
         ) {
             Text(
                 text = "Start",
